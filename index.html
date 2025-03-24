@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pixelify+Sans:wght@400..700&family=Sono:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <title>Robin's room!</title>
+</head>
+<body>
+    <!--Three.js canvas-->
+    <div class="portfolio">
+        <canvas id="portfolio-canvas"></canvas>
+    </div>
+
+    <!--Loading screen-->
+    <div id="loading" class="loading">
+        <h2>Loading...</h2>
+        <p>Please be patient: this entire webpage is powered by a hamster on a wheel, he's trying his best!</p>
+    </div>
+
+    <!--Welcome message-->
+    <div id="welcome" class="welcome">
+        <div class="welcome-content">
+            <button id="welcome-exit-button" class="popup-close">&times;</button>
+            <div class="popup-body">
+                    <h2>Hello there,</h2>
+                    <p>Welcome to Robin's digital office! Stay for as long as you'd like :)</p>
+            </div>
+        </div>
+    </div>
+
+    <!--Portfolio Popup-->
+    <div id="popup" class="popup hidden">
+        <div class="popup-content">
+            <button id="popup-exit-button" class="popup-close">&times;</button>
+            <div class="popup-body">
+                <!-- About Me Section -->
+                <section class="portfolio-section" id="about-me">
+                    <h2>About Me</h2>
+                    <div class="about-me-content">
+                        <div class="personal-info">
+                            <p><strong>Name:</strong> Robin</p>
+                            <p><strong>Age:</strong> 20</p>
+                            <p><strong>Nationality:</strong> Portuguese</p>
+                            <p><strong>Occupation:</strong> Junior Software Developer</p>
+                            <p>Just someone with a huge interest in computer graphics. You can usually find me working on one or more side projects.</p>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- Skills Section -->
+                <section class="portfolio-section" id="skills">
+                    <h2>Skills</h2>
+                    <div class="skills-content">
+                        <div class="skill-category">
+                            <h3>Programming Languages</h3>
+                            <ul>
+                                <li>C/C++</li>
+                                <li>Python</li>
+                                <li>Javascript</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h3>Areas of Interest</h3>
+                            <ul>
+                                <li>Game Development</li>
+                                <li>3D Graphics</li>
+                                <li>Web Development</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- Work Experience Section -->
+                <section class="portfolio-section" id="work-experience">
+                    <h2>Work Experience</h2>
+                    <div class="experience-list">
+                        <div class="experience-item">
+                            <h3>Junior Software Developer</h3>
+                            <p><strong>[COMPANY]</strong> | Feb 2025 - Present</p>
+                            <ul>
+                                <li>TODO</li>
+                                <li>TODO</li>
+                                <li>TODO</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- Education Section -->
+                <section class="portfolio-section" id="education">
+                    <h2>Education</h2>
+                    <div class="education-list">
+                        <div class="education-item">
+                            <h3>Bachelor's degree in Software Engineering</h3>
+                            <p><strong>[UNIVERSITY]</strong> | 2022 - 2025</p>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- Projects Section -->
+                <section class="portfolio-section" id="projects">
+                    <h2>Projects</h2>
+                    <div class="project-grid">
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="./public/Untitleddd.png" alt="Project 1">
+                            </div>
+                            <div class="project-details">
+                                <h3>Interactive 3D Portfolio</h3>
+                                <p>A 3D web portfolio build using Three.js and blender.</p>
+                                <div class="project-links">
+                                    <a href="#" target="_blank">View Project</a>
+                                    <a href="#" target="_blank">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="./public/Untitleddd.png" alt="Project 1">
+                            </div>
+                            <div class="project-details">
+                                <h3>Interactive 3D Portfolio</h3>
+                                <p>A 3D web portfolio build using Three.js and blender.</p>
+                                <div class="project-links">
+                                    <a href="#" target="_blank">View Project</a>
+                                    <a href="#" target="_blank">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- Contact Section -->
+                <section class="portfolio-section" id="contact">
+                    <h2>Contact Me</h2>
+                    <div class="contact-links">
+                        <div class="contact-item">
+                            <strong>Twitter:</strong> 
+                            <a href="https://x.com/RobinsSecret" target="_blank">@RobinsSecret</a>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Discord:</strong> 
+                            rowobin
+                        </div>
+                        <div class="contact-item">
+                            <strong>Email:</strong> 
+                            secretrobin95@gmail.com
+                        </div>
+                        <div class="contact-item">
+                            <strong>GitHub:</strong> 
+                            <a href="https://github.com/Rowobin" target="_blank">Docas95</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!--Import Three.js-->
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@v0.149.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.149.0/examples/jsm/"
+          }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <!--Main Script-->
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
