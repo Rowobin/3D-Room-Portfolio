@@ -142,7 +142,7 @@ if(sizes.width < 800){
     camera.position.x = 25;   
     camera.position.y = 8;    
     camera.position.z = 15;  
-    controls.maxDistance = 60;
+    controls.maxDistance = 30;
 }
 
 controls.target.set(-1, 3, -1.5); 
@@ -216,6 +216,15 @@ closePopupButton.addEventListener("click", () => {
 
 closeWelcomeButton.addEventListener("click", () =>{
     welcome.classList.toggle('hidden');
+});
+
+// Trying to fix bug on mobile
+window.addEventListener("touchstart", event => {
+    event.preventDefault();
+    event.clientX = event.touches[0].pageX;
+    event.clientY = event.touches[0].pageY;
+    onPointerMove(event);
+    onClick(event);
 });
 
 // Animation Loop
