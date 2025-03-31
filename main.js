@@ -182,12 +182,25 @@ function onResize(){
 }
 window.addEventListener("resize", onResize);
 
-// Get mouse position for raycasting
+// Get mouse/touch position for raycasting
+function updatePointer(x, y) {
+    pointer.x = (x / window.innerWidth) * 2 - 1;
+    pointer.y = -(y / window.innerHeight) * 2 + 1;
+}
+
 function onPointerMove(event){
-   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    updatePointer(event.clientX, event.clientY);
 }
 window.addEventListener("pointermove", onPointerMove);
+
+// Touch move event 
+function onTouchMove(event){
+    if (event.touches.length > 0) {
+        event.preventDefault();
+        updatePointer(event.touches[0].clientX, event.touches[0].clientY);
+    }
+}
+window.addEventListener("touchmove", onTouchMove, { passive: false });
 
 // Interact with 3D objects
 function onClick(){
@@ -208,7 +221,17 @@ function onClick(){
         }
     }
 }
+
+// Add touch event handlers
+function onTouchEnd(event) {
+    if (event.changedTouches.length > 0) {
+        updatePointer(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+        onClick();
+    }
+}
+
 window.addEventListener("click", onClick);
+window.addEventListener("touchend", onTouchEnd);
 
 closePopupButton.addEventListener("click", () => {
     popup.classList.toggle('hidden');
@@ -216,16 +239,6 @@ closePopupButton.addEventListener("click", () => {
 
 closeWelcomeButton.addEventListener("click", () =>{
     welcome.classList.toggle('hidden');
-});
-
-// Trying to fix bug on mobile
-window.addEventListener("touchstart", event => {
-    event.preventDefault();
-    event.clientX = event.touches[0].pageX;
-    event.clientY = event.touches[0].pageY;
-    onPointerMove(event);
-    onClick(event);
-    animate();
 });
 
 // Animation Loop
