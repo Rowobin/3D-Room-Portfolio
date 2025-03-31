@@ -25,7 +25,6 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 
 const raycaster = new THREE.Raycaster();
-const pointer = new THREE.Vector2();
 
 // Config renderer so things look better
 renderer.shadowMap.enabled = true;
@@ -182,56 +181,51 @@ function onResize(){
 }
 window.addEventListener("resize", onResize);
 
-// Get mouse/touch position for raycasting
-function updatePointer(x, y) {
-    pointer.x = (x / window.innerWidth) * 2 - 1;
-    pointer.y = -(y / window.innerHeight) * 2 + 1;
-}
-
-function onPointerMove(event){
-    updatePointer(event.clientX, event.clientY);
-}
-window.addEventListener("pointermove", onPointerMove);
-
-// Touch move event 
-function onTouchMove(event){
-    if (event.touches.length > 0) {
-        event.preventDefault();
-        updatePointer(event.touches[0].clientX, event.touches[0].clientY);
-    }
-}
-window.addEventListener("touchmove", onTouchMove, { passive: false });
-
 // Interact with 3D objects
-function onClick(){
-    if(intersectedObjectName != ""){
-        if(intersectedObjectName == "Portfolio"){
-            popup.classList.toggle("hidden");
-        }
-        else if (intersectedObjectName == "Github"){
-            window.open('https://github.com/Rowobin', '_blank');
-        }
-        else if (intersectedObjectName == "TwitterX"){
-            window.open('https://x.com/RobinsSecret', '_blank');
-        }
-        else if (intersectedObjectName == "Chair"){
-            spinObject(intersectedObject);
-        } else {
-            jumpObject(intersectedObject);
-        }
-    }
-}
+function onClick(event){
+   // Prevent default touch behavior to avoid scrolling
+   event.preventDefault();
 
-// Add touch event handlers
-function onTouchEnd(event) {
-    if (event.changedTouches.length > 0) {
-        updatePointer(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
-        onClick();
-    }
-}
+   let clientX, clientY;
 
-window.addEventListener("click", onClick);
-window.addEventListener("touchend", onTouchEnd);
+   // Check if the event is a touch event
+   if (event.touches) {
+       clientX = event.touches[0].clientX;
+       clientY = event.touches[0].clientY;
+   } else {
+       clientX = event.clientX;
+       clientY = event.clientY;
+   }
+
+   // Get the canvas's position and size
+   const rect = canvas.getBoundingClientRect();
+   const x = ((clientX - rect.left) / rect.width) * 2 - 1;
+   const y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+   // Update the raycaster with the current pointer position
+   raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+
+   // Find intersections
+   const intersects = raycaster.intersectObjects(intersectObjects, true);
+
+   if (intersects.length > 0) {
+       const intersectedObject = intersects[0].object.parent;
+       const name = intersectedObject.name;
+
+       if (name === "Portfolio") {
+           popup.classList.toggle("hidden");
+       } else if (name === "Github") {
+           window.open('https://github.com/Rowobin', '_blank');
+       } else if (name === "TwitterX") {
+           window.open('https://x.com/RobinsSecret', '_blank');
+       } else if (name === "Chair") {
+           spinObject(intersectedObject);
+       } else {
+           jumpObject(intersectedObject);
+       }
+   }
+}
+window.addEventListener("pointerdown", onClick);
 
 closePopupButton.addEventListener("click", () => {
     popup.classList.toggle('hidden');
@@ -243,22 +237,6 @@ closeWelcomeButton.addEventListener("click", () =>{
 
 // Animation Loop
 function animate(){
-    raycaster.setFromCamera(pointer, camera);
-
-    const intersects = raycaster.intersectObjects(intersectObjects, true);
-
-    if(intersects.length > 0){
-        document.body.style.cursor = "pointer";
-    } else {
-        document.body.style.cursor = "default";
-        intersectedObjectName = "";
-    }
-
-    for(let i = 0; i < intersects.length; i++){
-        intersectedObjectName = intersects[i].object.parent.name;
-        intersectedObject = intersects[i].object.parent;
-    } 
-
     controls.update(); 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
