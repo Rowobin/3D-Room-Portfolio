@@ -225,6 +225,7 @@ window.addEventListener("touchstart", event => {
     event.clientY = event.touches[0].pageY;
     onPointerMove(event);
     onClick(event);
+    animate();
 });
 
 // Animation Loop
